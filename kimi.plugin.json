@@ -1,0 +1,17 @@
+{
+  "name": "itpay",
+  "version": "2.0.15",
+  "description": "Use ItPay services through a bundled CLI in Kimi Work and Kimi Code.",
+  "keywords": ["itpay", "commerce", "checkout", "agent"],
+  "author": "itpay.ai",
+  "homepage": "https://github.com/itpay-ai/itpay-plugin-kimi-work",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "ItPay",
+    "shortDescription": "Discover and buy verified services with ItPay",
+    "longDescription": "Browse services, review prices, hand Checkout to a human, receive delivery, inspect orders, and request refunds.",
+    "developerName": "itpay.ai",
+    "websiteURL": "https://app.itpay.ai"
+  }
+}
