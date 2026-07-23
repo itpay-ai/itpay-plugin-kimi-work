@@ -2,7 +2,12 @@
   "name": "itpay",
   "version": "2.0.16",
   "description": "Use ItPay services through a bundled CLI in Kimi Work and Kimi Code.",
-  "keywords": ["itpay", "commerce", "checkout", "agent"],
+  "keywords": [
+    "itpay",
+    "commerce",
+    "checkout",
+    "agent"
+  ],
   "author": "itpay.ai",
   "homepage": "https://github.com/itpay-ai/itpay-plugin-kimi-work",
   "license": "MIT",
