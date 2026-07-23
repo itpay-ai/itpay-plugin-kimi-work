@@ -10,6 +10,7 @@ const lock = JSON.parse(readFileSync(new URL("../skills/itpay/bundle.lock.json",
 const launcher = fileURLToPath(new URL("../skills/itpay/scripts/itpay.mjs", import.meta.url));
 const skillRoot = fileURLToPath(new URL("../skills/itpay", import.meta.url));
 const skill = readFileSync(new URL("../skills/itpay/SKILL.md", import.meta.url), "utf8");
+const launcherSource = readFileSync(new URL("../skills/itpay/scripts/itpay.mjs", import.meta.url), "utf8");
 
 test("bundled CLI matches the locked version", () => {
   assert.equal(execFileSync(process.execPath, [launcher, "--version"], { encoding: "utf8" }).trim(), lock.version);
@@ -51,6 +52,7 @@ test("installed copy runs outside its source directory", () => {
 test("Kimi Skill uses only the locked launcher and platform rules", () => {
   assert.match(skill, /KIMI_SKILL_DIR/);
   assert.match(skill, /kimi-code/);
+  assert.match(launcherSource, /ITPAY_DISTRIBUTION: "kimi-plugin-bundle"/);
   assert.doesNotMatch(skill, /npm install -g/);
   assert.doesNotMatch(skill, /WorkBuddy|dangerouslyDisableSandbox|present_files/);
 });

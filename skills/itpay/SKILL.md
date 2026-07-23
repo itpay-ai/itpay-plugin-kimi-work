@@ -13,7 +13,7 @@ Use the CLI as the only ItPay control surface. Never recreate API calls or hardc
 ## Kimi Work Runtime
 
 - Run `node ${KIMI_SKILL_DIR}/scripts/itpay.mjs`. Treat every leading `itpay` in this Skill or a returned `next.command` as that locked launcher.
-- The launcher fixes `kimi-code` as the Agent Type for the entire flow. Never run `itpay install`, pass another type, or switch identity to recover quota.
+- The launcher fixes `kimi-code` as the Agent Type for the entire flow. Never pass another type or switch identity to recover quota.
 - Node.js 18+ is the only host runtime requirement. The bundled CLI must not install packages or download code at runtime.
 - Plugin changes require reinstalling or updating the GitHub release, then `/reload` or a new session.
 
@@ -38,6 +38,7 @@ Use the CLI as the only ItPay control surface. Never recreate API calls or hardc
 ```bash
 node ${KIMI_SKILL_DIR}/scripts/itpay.mjs readyz --json
 node ${KIMI_SKILL_DIR}/scripts/itpay.mjs skill show itpay --json
+node ${KIMI_SKILL_DIR}/scripts/itpay.mjs install kimi-code --json
 ```
 
 After `readyz`, read this complete Skill again, then continue to Catalog. Translate returned commands only by replacing their leading `itpay` with the locked launcher; do not change arguments.

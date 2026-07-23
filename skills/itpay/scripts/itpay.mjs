@@ -22,6 +22,7 @@ const child = spawn(process.execPath, [entry, ...args], {
   env: {
     ...process.env,
     ITPAY_AGENT_TYPE: "kimi-code",
+    ITPAY_DISTRIBUTION: "kimi-plugin-bundle",
     ITPAY_CLI_DOCS_DIR: resolve(skillRoot, "vendor/itpay-cli/docs/agent/buyer"),
     ITPAY_CLI_SKILLS_DIR: dirname(skillRoot),
   },
