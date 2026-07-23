@@ -1,14 +1,14 @@
 # ItPay for Kimi Work and Kimi Code
 
-Kimi plugin containing an ItPay Skill and a pinned, offline `@itpay/cli` bundle.
+Kimi plugin containing an ItPay Skill and a pinned, offline single-file `@itpay/cli` bundle.
 
 ## Package contract
 
 - Manifest: `kimi.plugin.json` at repository/archive root.
 - Skill: `skills/itpay/SKILL.md`.
-- Runtime: Node.js 18+; no global ItPay install and no runtime npm download.
+- Runtime: Node.js 18+ with one bundled `.mjs`; no `node_modules`, global ItPay install, or runtime npm download.
 - Kimi Work is built on the Kimi Code local Agent kernel, so this first package uses the existing `kimi-code` ItPay Agent Type.
-- The Skill resolves its launcher through `${KIMI_SKILL_DIR}` and never depends on the current working directory.
+- The Skill resolves its launcher through `${KIMI_SKILL_DIR}` and the launcher fixes `ITPAY_AGENT_TYPE=kimi-code`, independent of the current working directory.
 - Checkout remains an external human handoff; no card data, CVV, payment password, verification code, or wallet private key is collected.
 
 ## Install and distribution
@@ -30,6 +30,6 @@ Kimi Work officially supports local Skill upload and is powered by the Kimi Code
 npm test
 ```
 
-Then install from the exact GitHub tag, run `/plugins info itpay`, `/reload`, and confirm `/skill:itpay` discovers the bundled launcher.
+Then install from the exact GitHub tag, run `/plugins info itpay`, `/reload`, and confirm `/skill:itpay` discovers the bundled launcher and returns `agent_type: kimi-code`.
 
 Official rules: [Kimi Work overview](https://www.kimi.com/en-cn/help/kimi-work/overview), [Kimi Code plugins](https://www.kimi.com/code/docs/en/kimi-code-cli/customization/plugins.html), [Kimi Code Agent Skills](https://www.kimi.com/code/docs/en/kimi-code-cli/customization/skills.html), [Kimi Work Plugin Center](https://www.kimi.com/help/kimi-work/plugin-center).

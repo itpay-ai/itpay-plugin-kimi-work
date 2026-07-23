@@ -1,6 +1,6 @@
 {
   "name": "itpay-plugin-kimi-work",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "private": true,
   "type": "module",
   "scripts": { "test": "node --test" }

@@ -13,7 +13,7 @@ Use the CLI as the only ItPay control surface. Never recreate API calls or hardc
 ## Kimi Work Runtime
 
 - Run `node ${KIMI_SKILL_DIR}/scripts/itpay.mjs`. Treat every leading `itpay` in this Skill or a returned `next.command` as that locked launcher.
-- Kimi Work currently uses the Kimi Code local Agent kernel, so keep `kimi-code` as the Agent Type for the entire flow. Do not switch types to recover quota.
+- The launcher fixes `kimi-code` as the Agent Type for the entire flow. Never run `itpay install`, pass another type, or switch identity to recover quota.
 - Node.js 18+ is the only host runtime requirement. The bundled CLI must not install packages or download code at runtime.
 - Plugin changes require reinstalling or updating the GitHub release, then `/reload` or a new session.
 
@@ -28,7 +28,6 @@ Use the CLI as the only ItPay control surface. Never recreate API calls or hardc
 
 - The CLI defaults to production `https://app.itpay.ai`. Only an explicit test may use the exact prefix `ITPAY_BACKEND_URL=https://dev.itpay.ai`; never use another Backend. While testing dev, execute every returned command unchanged so that prefix is preserved.
 - Keep one honest Agent Type, one CLI/Node launcher, and one Host-approved permission context for the whole flow. This package uses `kimi-code` because Kimi Work runs the Kimi Code local Agent kernel.
-- WorkBuddy: before any ItPay Bash command that persists `~/.itpay-v3`, set the Shell tool parameter `dangerouslyDisableSandbox` to `true`. If the human denies that permission, the command did not run: stop and report it.
 - Windows, tasks, chats, processes, and model sessions are not new Agents. Never rotate Agent Type or identity to reset quota.
 - Treat `next.command` as the preferred continuation, not an unconditional command. If the current result already satisfies the user's stated goal, present it and stop.
 - Keep internal parsing, retries, sandbox diagnosis, and command translation out of the user response; report useful progress, results, and real human decisions only.
@@ -37,17 +36,13 @@ Use the CLI as the only ItPay control surface. Never recreate API calls or hardc
 ## Bootstrap
 
 ```bash
-npm install -g @itpay/cli
-itpay readyz --json
-itpay skill show itpay --json
-itpay install --json
-itpay install <agent_type> --json
-itpay --agent-type <agent_type> readyz --json
+node ${KIMI_SKILL_DIR}/scripts/itpay.mjs readyz --json
+node ${KIMI_SKILL_DIR}/scripts/itpay.mjs skill show itpay --json
 ```
 
-Follow the returned `next.command`. After typed `readyz`, read this complete Skill again, then continue to Catalog.
+After `readyz`, read this complete Skill again, then continue to Catalog. Translate returned commands only by replacing their leading `itpay` with the locked launcher; do not change arguments.
 
-If `backend_contract_incompatible` returns `result.required_cli_version`, stop every ItPay business command. Run only its exact `npm install -g @itpay/cli@<version>` recovery; never substitute `latest`. Confirm `itpay --version` exactly matches the required version, then restart with typed `readyz`. Never change Agent Type or Device identity to bypass compatibility.
+If `backend_contract_incompatible` returns `result.required_cli_version`, stop every ItPay business command. Update or reinstall the ItPay Kimi plugin release that bundles that exact CLI version, run `/reload` or start a new session, confirm the launcher reports the required version, then restart with `readyz`. Never run npm at runtime or change Agent Type or Device identity.
 
 ## Identity And Sessions
 
@@ -73,8 +68,8 @@ Do not print the whole envelope to the user. Return the useful result, a short e
 ## Golden Flow
 
 ```bash
-itpay --agent-type <agent_type> catalog list --json
-itpay --agent-type <agent_type> services start <service_id> --json
+itpay --agent-type kimi-code catalog list --json
+itpay --agent-type kimi-code services start <service_id> --json
 ```
 
 Then follow each returned `next.command` on the same Service Execution.
@@ -90,10 +85,9 @@ Then follow each returned `next.command` on the same Service Execution.
 
 When `status` is `human_checkout_required`, make the amount, ItPay Checkout QR, and `handoff.url` visible on the current human surface, then stop.
 
-- Desktop Agents: send `handoff.markdown` unchanged; confirm QR, amount, and link are visible, then stop.
-- CLI Agents: show the terminal QR, amount, and link in the watched terminal, then stop; never claim a desktop image was shown.
-- WorkBuddy with `plain-chat`: when `handoff.qr_image_url` exists, use its complete value as the only `files` element in `present_files`; confirm the right-side QR preview opened, show amount and `handoff.url`, then stop. If it is absent, send amount and `handoff.url`, do not call `present_files`, then stop.
-- If WorkBuddy `present_files` fails, send only `handoff.url`, report the failure, and stop. Never inspect files, switch Node, rebuild a QR, call `pay`, or create another Checkout.
+- Kimi Work: send the amount and `handoff.url` in the current task, make the link clickable, then stop. If the returned handoff already contains a Kimi-previewable HTTPS image, present that exact URL without downloading or rebuilding it.
+- Kimi Code: keep the terminal QR, amount, and `handoff.url` visible in the watched terminal, then stop; never claim the Kimi Work desktop received an image.
+- If the current Kimi surface cannot preview an image, send `handoff.url` and report only that the preview was unavailable. Never inspect local QR files, rebuild a QR, call `pay`, or create another Checkout.
 - An explicit `--host` overrides presentation only. It never changes Agent identity or payment state.
 
 Run `next.command` only after the human says they acted or asks for status. QR rendering, redirects, and human claims are not payment proof; only Backend Checkout or Order state is. Normal payment uses the Checkout page; `pay` and `buy --pay` are operator escape hatches, never recovery.
@@ -111,12 +105,12 @@ Run `next.command` only after the human says they acted or asks for status. QR r
 Before creating anything again, use only the applicable read/resume command:
 
 ```bash
-itpay --agent-type <agent_type> next --json
-itpay --agent-type <agent_type> services list --json
-itpay --agent-type <agent_type> services next <service_execution_id> --json
-itpay --agent-type <agent_type> services checkout <service_execution_id> --resume --json
-itpay --agent-type <agent_type> checkout --id <checkout_id> --token <display_token> --json
-itpay --agent-type <agent_type> refund get <refund_request_id> --json
+itpay --agent-type kimi-code next --json
+itpay --agent-type kimi-code services list --json
+itpay --agent-type kimi-code services next <service_execution_id> --json
+itpay --agent-type kimi-code services checkout <service_execution_id> --resume --json
+itpay --agent-type kimi-code checkout --id <checkout_id> --token <display_token> --json
+itpay --agent-type kimi-code refund get <refund_request_id> --json
 ```
 
 Reuse the same Execution and Checkout. Never start another Execution, create another Checkout, change payment route, or replay a capability to bypass quota, selection, payment, delivery, grant, or refund state.
