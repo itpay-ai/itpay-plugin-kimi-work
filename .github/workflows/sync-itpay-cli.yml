@@ -15,3 +15,6 @@ jobs:
       bundle-format: single-file-esm
       version-files: package.json,kimi.plugin.json
       track-skill-diff: true
+    secrets:
+      ITPAY_BUNDLE_APP_ID: ${{ secrets.ITPAY_BUNDLE_APP_ID }}
+      ITPAY_BUNDLE_APP_PRIVATE_KEY: ${{ secrets.ITPAY_BUNDLE_APP_PRIVATE_KEY }}
