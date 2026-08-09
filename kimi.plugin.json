@@ -1,6 +1,6 @@
 {
   "name": "itpay",
-  "version": "2.0.17",
+  "version": "2.0.25",
   "description": "Use ItPay services through a bundled CLI in Kimi Work and Kimi Code.",
   "keywords": [
     "itpay",
