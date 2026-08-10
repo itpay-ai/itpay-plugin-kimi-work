@@ -57,6 +57,9 @@ test("Kimi Skill uses only the locked launcher and platform rules", () => {
   assert.doesNotMatch(skill, /WorkBuddy|dangerouslyDisableSandbox|present_files/);
   assert.match(skill, /Pure cloud Kimi.*MCP only/);
   assert.match(skill, /Local Kimi Code CLI/);
+  assert.ok(skill.indexOf("itpay_account_status") < skill.indexOf("itpay_orders_list"));
+  assert.match(skill, /wait for the user to select an artifact/);
+  assert.match(skill, /retry the same read once/);
   for (const tool of ["itpay_account_status", "itpay_orders_list", "itpay_vault_list", "itpay_vault_authorize", "itpay_vault_result_read"]) {
     assert.match(skill, new RegExp(tool));
   }
