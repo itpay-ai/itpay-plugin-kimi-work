@@ -24,7 +24,7 @@ test("bundled CLI matches the locked version", () => {
 test("launcher fixes the Kimi identity and exposes bundled guidance", () => {
   const shown = JSON.parse(execFileSync(process.execPath, [launcher, "skill", "show", "itpay", "--json"], { encoding: "utf8" }));
   assert.equal(shown.status, "shown");
-  assert.equal(shown.next.command, "itpay --agent-type kimi-code catalog list --json");
+  assert.equal(shown.next, null);
   assert.match(shown.instruction, /kimi-code/);
 
   const docs = JSON.parse(execFileSync(process.execPath, [launcher, "docs", "show", "install-and-setup", "--json"], { encoding: "utf8" }));
@@ -57,6 +57,9 @@ test("Kimi Skill uses only the locked launcher and platform rules", () => {
   assert.doesNotMatch(skill, /WorkBuddy|dangerouslyDisableSandbox|present_files/);
   assert.match(skill, /Pure cloud Kimi.*MCP only/);
   assert.match(skill, /Local Kimi Code CLI/);
+  assert.match(skill, /Understand The Human/);
+  assert.match(skill, /Previously Purchased Content/);
+  assert.match(skill, /must not pay again/);
   assert.ok(skill.indexOf("itpay_account_status") < skill.indexOf("itpay_orders_list"));
   assert.match(skill, /wait for the user to select an artifact/);
   assert.match(skill, /retry the same read once/);
