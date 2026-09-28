@@ -3,7 +3,8 @@ name: itpay
 description: >
   Use ItPay in cloud Kimi to read orders and purchased content through OAuth
   MCP, or in local Kimi Code to discover, buy, read, and refund through the
-  bundled CLI.
+  bundled CLI. The local CLI can also record a human's rating of a purchased
+  service.
 ---
 
 # ItPay
