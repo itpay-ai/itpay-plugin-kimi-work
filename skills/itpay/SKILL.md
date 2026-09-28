@@ -58,7 +58,8 @@ Never switch Backend, launcher, Agent Type, or Device.
 
 | Human intent | First action |
 | --- | --- |
-| Discover services or make a new query | `itpay catalog list --json` |
+| Railway planning or booking | Read `itpay docs show rail-booking --json` once; form a credible station pair for Exact or use Smart for broad comparison |
+| Discover other services or make a new query | `itpay catalog list --json` |
 | View previously purchased content | `itpay vault list --json` |
 | Find a previous result by subject | `itpay vault list --query <subject> --json` |
 | Inspect purchase history | `itpay orders --json` |
