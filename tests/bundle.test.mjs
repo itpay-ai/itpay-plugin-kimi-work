@@ -57,8 +57,8 @@ test("Kimi Skill uses only the locked launcher and platform rules", () => {
   assert.doesNotMatch(skill, /WorkBuddy|dangerouslyDisableSandbox|present_files/);
   assert.match(skill, /Pure cloud Kimi.*MCP only/);
   assert.match(skill, /Local Kimi Code CLI/);
-  assert.match(skill, /Choose one entry/);
-  assert.match(skill, /Previously purchased content/);
+  assert.match(skill, /Route The Human's Intent/);
+  assert.match(skill, /View previously purchased content/);
   assert.match(skill, /must not pay again/);
   assert.ok(skill.indexOf("itpay_account_status") < skill.indexOf("itpay_orders_list"));
   assert.match(skill, /wait for the user to select an artifact/);
@@ -73,3 +73,9 @@ function filesBelow(root) {
     .filter((entry) => entry.isFile())
     .map((entry) => join(entry.parentPath ?? entry.path, entry.name));
 }
+
+test("production business contract and separate dev setup stay intact", () => {
+  assert.match(skill, /device_ready/);
+  assert.match(skill, /testing-setup\.md/);
+  assert.doesNotMatch(skill, /query_exact|query_smart|rail-booking --json/);
+});
